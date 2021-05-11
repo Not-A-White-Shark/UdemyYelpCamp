@@ -14,6 +14,17 @@ ImageSchema.virtual('thumbnail').get(function(){
 const CampgroundSchema = new Schema({
     title: String,
     images: [ImageSchema],
+    geometry: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
     price: Number,
     description: String,
     location: String,
@@ -21,10 +32,12 @@ const CampgroundSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    reviews: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Review'
-    }]
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ]
 });
 
 CampgroundSchema.post('findOneAndDelete', async function (doc) {
