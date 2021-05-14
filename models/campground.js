@@ -42,12 +42,19 @@ const CampgroundSchema = new Schema({
     ]
 }, opts);
 
-CampgroundSchema.virtual('properties.popUpMarkup').get(function(){
-    const card = `<strong><a href=/campgrounds/${this._id}>${this.title}</a></strong>
-    <p>${this.description.substring(0,40)}...
-    </p>`;
-    return card;
-});
+// CampgroundSchema.virtual('properties.popUpMarkup').get(function(){
+//     const card = `<strong><a href=/campgrounds/${this._id}>${this.title}</a></strong>
+//     <p>${this.description.substring(0,40)}...
+//     </p>`;
+//     return card;
+// });
+
+CampgroundSchema.virtual('properties').get(function () {
+    return {
+      id: this._id,
+      title: this.title
+    }
+  });
 
 CampgroundSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {
